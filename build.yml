@@ -1,0 +1,24 @@
+#sdk: "/var/lib/gems/1.9.1/gems/rhodes-3.5.1.12"
+sdkversion: 3.5.0
+name: mspbus
+version: 1.0
+vendor: rhomobile
+build: debug
+bbver: 4.6
+applog: rholog.txt
+iphone:
+  configuration: Release
+  sdk: iphonesimulator5.0
+  provisionprofile:
+  codesignidentity:
+  entitlements:
+  BundleIdentifier: com.rhomobile.mspbus
+  BundleURLScheme: mspbus
+wp:
+  productid: 'ed682530-ad47-0130-21b1-00269e0b1b65'
+symbian:
+  uid: '0xe9faa618'
+android:
+  version: 2.1
+
+extensions: ["json", "another-extension"]

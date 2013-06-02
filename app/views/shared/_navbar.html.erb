@@ -1,16 +1,17 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <a class="brand" href="/">MSP Bus</a>
-      <form class="navbar-form pull-right" action="/">
-        <input type="text" id="q" name="q" class="span2" placeholder="Ex. 4th and Nicollet" value="<%= params[:q] %>">
-        <button type="submit" class="btn "><i class="icon-search"></i></button>
-      </form>
-      <ul class="nav pull-right">
+      <a class="brand" href="/"><%= image_tag("logo-small.png", :size => "24x24", :alt => "MSP Bus Logo") %></a>
+      <button class="btn-current-location btn btn-info btn-address pull-right"><i class=""></i><img height=25 width=25 src="<%= asset_path 'location.png' %>" alt="Update Location" /></button>
+      <form class="navbar-form" action="/">
+        <div class="input-append"><input type="text" id="q" name="q" placeholder="Search..." value="<%= params[:q] %>"/><button class="btn add-on"> <i class="icon-search"></i></button>
+      </div></form>
+      <!-- <ul class="nav pull-right">
         <li><a href='#'>Map</a></li>
         <li><a href='#'>Times</a></li>
         <li><a href='#'>Routes</a></li>
-      </ul>
+      </ul> -->
+      
     </div>
   </div>
 </div>  

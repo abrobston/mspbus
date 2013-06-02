@@ -3,6 +3,7 @@ class Stop < ActiveRecord::Base
   # Adding elasticsearch
   include Tire::Model::Search
   include Tire::Model::Callbacks
+  include HTTParty
 
   attr_accessible :stop_id, :stop_name, :stop_desc, :stop_lat, :stop_lon, :stop_city, :stop_street
 
@@ -21,14 +22,32 @@ class Stop < ActiveRecord::Base
   end
 
   def self.search(params)
-    tire.search(page: params[:page], per_page: 10) do
-      query { string params[:q], default_operator: "AND" } if params[:q].present?
-      # filter :term, :active => true
-      # filter :term, :is_deleted => false
-      unless params[:q].present?
-        filter :geo_distance, location: "#{params[:lat]},#{params[:lon]}", distance: "#{params[:radius]}mi"
-      end
 
+    found_address = true
+
+    if params[:q].present? then
+      search_term=params[:q].split(" ").join("+")
+      begin
+        Timeout::timeout(2) do
+          response = HTTParty.get("http://maps.googleapis.com/maps/api/geocode/json?address=#{search_term}&sensor=true")
+          if not response['results'].blank?
+            params[:lat]=response['results'][0]['geometry']['location']['lat']
+            params[:lon]=response['results'][0]['geometry']['location']['lng']
+          else
+            found_address = false 
+          end
+        end
+      rescue Timeout::Error
+
+      end
+    end
+
+
+    tire.search(page: params[:page], per_page: 10) do
+      filter :geo_distance, location: "#{params[:lat]},#{params[:lon]}", distance: "#{params[:radius]}mi"
+      if !found_address
+        query { string params[:q], default_operator: "AND" } if params[:q].present?
+      end
       sort do
         by "_geo_distance", "location" => "#{params[:lat]},#{params[:lon]}", "unit" => "mi"
       end

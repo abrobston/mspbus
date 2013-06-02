@@ -1,1 +1,25 @@
-Testing show route
+<% if @stop.nil? %>
+  <div class="alert alert-info">Stop does not exist.</div>
+<% else %>
+
+<h1 id="thestop" data-attr="<%= @stop.stop_id %>" style="font-size:1.5em;"><%= @stop.stop_name %></h1>
+
+<table class="table">
+<thead>
+  <tr style="font-weight:bold"><td>Route</td><td>Description</td><td>Arrival</td></tr>
+</thead>
+<tbody id="result">
+</tbody>
+</table>
+<div style="margin-top:1em;">
+  <b>Arriving in:</b><br>
+  <span class="label label-important">0&ndash;5 Min</span>
+  <span class="label label-warning">5&ndash;12 Min</span>
+  <span class="label label-success">12&ndash;20 Min</span>
+  <span class="label label-info">&gt;20 Min</span>
+  <span class="label"><i class="icon-question-sign"></i> = No real-time data</span>
+</div>
+
+<%= javascript_include_tag "show_stop" %>
+
+<% end %>

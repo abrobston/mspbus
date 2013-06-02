@@ -1,27 +1,107 @@
-<script type='text/javascript'>
-    clientLocation = false;
-
-    if (navigator.geolocation)
-    {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            clientLocation = position.coords;
-        });
-    }
-</script>
 <% if @stops.results.empty? %>
   <div class="alert alert-info">No stops found.</div>
 <% end %>
-<button id="btn-current-location" class="btn btn-info btn-address pull-right"><i class="icon-circle-blank"></i> Find my location</button>
-<div class="btn-group btn-group-vertical" style="width:100%;">
-  <% @stops.results.each do |stop| %>
-    <div style="text-align:left;" class="stopbutton btn">
-      <a href="stop/<%= stop.stop_id %>">
-        <div style="position:absolute;right:5px"><%= (stop.sort[0]*5280).round() unless stop.sort[0].nil? %> ft</div>
-        <b><%= stop.stop_name %></b> 
-        <div class="real-time" id="<%= stop.stop_id %>" data-attr="<%= stop.stop_id %>"></div>
-      </a>
-    </div>
-    <% end %>
+
+<!--<button id="btn-current-location-small" class="btn btn-info btn-address pull-right"><i class="icon-circle-blank"></i> Update my location</button>-->
+
+<p style="text-align:center">Real-time bus arrival information</p>
+
+<ul id="viewchanger" class="nav nav-pills">
+  <li class="active">
+    <a id="view-table-btn" href="#"><i class="icon-th"></i> Table</a>
+  </li>
+  <li>
+    <a id="view-map-btn" href="#"><i class="icon-map-marker"></i> Map</a>
+  </li>
+</ul>
+
+<div id="view-table" class="views">
+
+  <div class="btn-group btn-group-vertical" style="width:100%;">
+    <% @stops.results.each do |stop| %>
+      <div style="text-align:left;" class="stopbutton btn">
+        <a href="stop/<%= stop.stop_id %>">
+          <div style="position:absolute;right:5px">
+            <%= 
+            if (stop.sort[0].nil?)
+              ""
+            elsif (stop.sort[0]>2)
+              stop.sort[0].round().to_s+" mi"      
+            elsif(stop.sort[0]>0.5) then
+              stop.sort[0].round(1).to_s+" mi"
+            else
+              (stop.sort[0]*5280).round().to_s+" ft"
+            end %>
+          </div>
+          <b><%= stop.stop_name %></b> 
+          <div class="real-time" id="<%= stop.stop_id %>" data-attr="<%= stop.stop_id %>"></div>
+        </a>
+      </div>
+      <% end %>
+  </div>
+  <div style="margin-top:1em;">
+    <b>Arriving in:</b><br>
+    <span class="label label-important">0&ndash;5 Min</span>
+    <span class="label label-warning">5&ndash;12 Min</span>
+    <span class="label label-success">12&ndash;20 Min</span>
+    <span class="label label-info">&gt;20 Min</span>
+    <span class="label"><i class="icon-question-sign"></i> = Real-time unavailable</span>
+  </div>
 </div>
 
+<div id="view-map" class="views" style="display:none">
+  <div style="height:500px" id="map-canvas"></div>
+</div>
+
+<div class="modal hide fade" id="ask">
+  <div class="modal-header">
+    <button type="button" class="close" id="ask-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><%= image_tag("logo-small.png", :size => "24x24", :alt => "MSP Bus Logo") %>&nbsp;MSP Bus</h3>
+  </div>
+  <div class="modal-body" style="text-align:center;">
+    <p>MSP Bus would like to use your geolocation to find stops near you.</p>
+    <button class="btn-current-location btn btn-info btn-large btn-address" style="font-weight:bold;font-size:20px"><img style="width:20px;height:20px;vertical-align:middle" src="<%= asset_path 'location.png' %>"> Allow</button>
+
+  </div>
+ </div>
+
+<div class="modal hide fade" id="error">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><i class="icon-truck"></i>&nbsp;MSP Bus</h3>
+  </div>
+  <div class="modal-body" style="text-align:center;">
+    <p>Location settings are disabled. Please set your location below:</p>
+      <form class="fallback-form" action="/">
+        <div class="input-append"><input type="text" name="q" placeholder="1007 W Franklin, Minneapolis" value="<%= params[:q] %>"/><button class="btn add-on"> <i class="icon-search"></i></button>
+      </div></form>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz7GjhrxP5ntdxLX79fi6LaLdn9Lc6LFY&sensor=true">
+</script>
+
 <%= javascript_include_tag "realtime" %>
+<%= javascript_include_tag "maps" %>
+
+<script>
+  var markers = <%= @stops.results.map { |i| i['location'] }.to_json %>;
+  var stop_ids = <%= @stops.results.map { |i| i['stop_id'].to_i }.to_json %>;
+
+  $("#view-table-btn").click( function() {
+    $("#viewchanger li").removeClass("active");
+    $("#view-table-btn").parent().addClass("active");
+    $(".views").hide();
+    $("#view-table").show();
+  });
+  $("#view-map-btn").click( function() {
+    $("#viewchanger li").removeClass("active");
+    $("#view-map-btn").parent().addClass("active");
+    $(".views").hide();
+    $("#view-map").show();
+    initialize(<%= @lat %>, <%= @lon %>);
+    add_markers(markers);
+    initialize.ran=true;
+  });
+</script>

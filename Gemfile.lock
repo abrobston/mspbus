@@ -46,6 +46,9 @@ GEM
     hashr (0.0.22)
     highline (1.6.19)
     hike (1.2.2)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (3.0.0)
@@ -58,6 +61,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.23)
     multi_json (1.7.4)
+    multi_xml (0.5.3)
     pg (0.15.1)
     pg (0.15.1-x86-mingw32)
     polyglot (0.3.3)
@@ -137,12 +141,12 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  httparty
   jquery-rails
   pg
   rails (= 3.2.13)
   rhodes
   sass-rails (~> 3.2.3)
-  sqlite3
   therubyracer
   tire
   uglifier (>= 1.0.3)

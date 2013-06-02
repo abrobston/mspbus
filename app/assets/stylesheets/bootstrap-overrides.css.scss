@@ -27,3 +27,11 @@
 }
 
 }
+
+
+.italic-field::-webkit-input-placeholder {font-style:italic;color:#999;}
+.italic-field::-moz-placeholder {font-style:italic;color:#999;}
+
+.input-append button.add-on {
+    height: inherit !important;
+}

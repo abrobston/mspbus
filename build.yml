@@ -20,7 +20,9 @@ wp:
 symbian:
   uid: '0xe9faa618'
 android:
-  version: 2.1
+  version: 2.2
+  apikey: "AIzaSyCZlDBVhMs6joP4PlTxq66MSVG-aD0XiRY"
+  mapping: yes
 extensions:
 - json
 - another-extension

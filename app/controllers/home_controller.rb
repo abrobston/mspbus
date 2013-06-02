@@ -9,12 +9,24 @@ class HomeController < ApplicationController
     end
     params[:radius] = 1
 
-    if !params[:q] && cookies[:q].present?
+    if !params[:q].present? && cookies[:q].present?
       params[:q]=cookies[:q]
+    end
+
+    if params[:q].present?
+      params[:q]+=", Minneapolis, MN"
     end
 
     @stops = Stop.search(params)
     @lat=params[:lat]
     @lon=params[:lon]
+  end
+
+  def about
+
+  end
+  
+  def feedback
+    
   end
 end

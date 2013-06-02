@@ -50,6 +50,8 @@ MspBus::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'home#index'
   get 'stop/:id' => 'stop#show'
+  get 'about' => 'home#about'
+  get 'feedback' => 'home#feedback'
 
   # See how all your routes lay out with "rake routes"
 

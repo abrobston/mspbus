@@ -2,7 +2,10 @@
   <div class="alert alert-info">Stop does not exist.</div>
 <% else %>
 
-<h1 id="thestop" data-attr="<%= @stop.stop_id %>" style="font-size:1.5em;"><%= @stop.stop_name %></h1>
+<div>
+<span id="thestop" data-attr="<%= @stop.stop_id %>" style="font-weight:bold;font-size:1.5em;margin:0"><%= @stop.stop_name %></span>
+<span style="margin-left:0.5em;font-size:90%;font-style:italic">(<%= @stop.stop_desc %>)</span>
+</div>
 
 <table class="table">
 <thead>

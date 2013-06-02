@@ -15,8 +15,14 @@
   <%= render('shared/navbar') %>
   <div class="app-container container">
     <%= yield %>
+    <div class="footer">
+      <div class="inner-footer">
+        <a href="/about">About</a> &bull; <a href="/feedback">Feedback</a>
+      </div>
+    </div>
   </div>
   <%= yield :javascript %>
+  
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

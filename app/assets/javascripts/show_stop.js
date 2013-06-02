@@ -28,7 +28,7 @@ var ShowStopModel = Backbone.Model.extend({
 });
 
 // Realtime Template
-var realtime_template = _.template('<table><% _.each(data, function(item) { %> <tr><td class="route"><%= item.Route %><%= item.Terminal %></td><td class="desc"><%= item.Description %></td><td class="time" style="color:<%= item.priority %>"><i><%= item.DepartureText %></i> </td></tr><% }); %></table>');
+var realtime_template = _.template('<table><% _.each(data, function(item) { %> <tr><td class="route"><%= item.Route %><%= item.Terminal %></td><td><span class="desc" title="<%= item.Description %>"><%= item.sdesc %></span></td><td class="time" style="color:<%= item.priority %>"><i><%= item.DepartureText %></i> </td></tr><% }); %></table>');
 
 $(document).ready(function() {
   var id=$("#thestop").data().attr;
@@ -69,6 +69,10 @@ $(document).ready(function() {
 
         if(dtime<20 && obj.DepartureText.indexOf(":")!=-1)
           obj.DepartureText+='&nbsp;<i title="Bus scheduled, no real-time data available." class="icon-question-sign"></i>';
+
+        obj.sdesc=obj.Description;
+        if(obj.sdesc.length>20 && matchMedia('only screen and (max-width: 480px)').matches)
+          obj.sdesc=obj.Description.substr(0,20)+" &hellip;";
 
         console.log(obj.priority);
 

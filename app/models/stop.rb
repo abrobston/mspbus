@@ -43,7 +43,7 @@ class Stop < ActiveRecord::Base
     end
 
 
-    tire.search(page: params[:page], per_page: 10) do
+    tire.search(page: params[:page], per_page: 40) do
       filter :geo_distance, location: "#{params[:lat]},#{params[:lon]}", distance: "#{params[:radius]}mi"
       if !found_address
         query { string params[:q], default_operator: "AND" } if params[:q].present?

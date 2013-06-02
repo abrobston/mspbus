@@ -18,4 +18,5 @@
 //= require moment.min
 //= require jquery.cookie
 //= require url-parser
+//= require matchMedia
 // require_tree .

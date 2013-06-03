@@ -30,8 +30,6 @@ var RealtimeModel = Backbone.Model.extend({
 // Realtime Template
 var realtime_template = _.template('<% _.each(data, function(item) { %> <span class="label <%= item.priority %>"> <b><%= item.Route %><%= item.Terminal %></b> <i><%= item.DepartureText %></i></span> <% }); %>');
 
-var nodata_template = _.template('<span class="label">No data</span>');
-
 $(document).ready(function() {
 
   // Loop over stops and get realtime data
@@ -44,7 +42,7 @@ $(document).ready(function() {
   // Callback on realtime model.
   function got_data(model, data) {
     if(data.length==0){
-      $("#" + model.id).html( nodata_template() );
+      $("#" + model.id).parent().parent().hide();
       return;
     }
 

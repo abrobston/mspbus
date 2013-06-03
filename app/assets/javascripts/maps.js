@@ -4,6 +4,9 @@ function initialize(lat,lon) {
   if (initialize.ran==true)
     return;
 
+  initialize.lat=lat;
+  initialize.lon=lon;
+
   var mapOptions = {
     center: new google.maps.LatLng(lat, lon),
     zoom: 16,
@@ -28,5 +31,13 @@ function add_markers(markers) {
     google.maps.event.addListener(marker, 'click', function() { 
       window.location = '/stop/' + stop_ids[index];
     });
+  });
+
+  var yah_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(initialize.lat,initialize.lon),
+    map: map,
+    draggable: false,
+    icon: '/assets/you-are-here.png',
+    animation: google.maps.Animation.DROP
   });
 }

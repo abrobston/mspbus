@@ -1,0 +1,29 @@
+--- android_tools.rb.old	2013-06-03 01:10:15.898310001 -0500
++++ android_tools.rb	2013-06-03 01:19:26.147392434 -0500
+@@ -31,6 +31,8 @@
+ 
+ #USE_TRACES = Rake.application.options.trace
+ 
++require "fileutils"
++
+ module AndroidTools
+ 
+ def fill_api_levels(sdkpath)
+@@ -208,7 +210,7 @@
+ def  run_emulator(options = {})
+   system("\"#{$adb}\" start-server")
+ 
+-  rm_f $applog_path if !$applog_path.nil?
++  FileUtils::rm_f $applog_path if !$applog_path.nil?
+   logcat_process()
+   
+   unless is_emulator_running
+@@ -280,7 +282,7 @@
+               Jake.run($adb, ['start-server'], nil, true)
+               adbRestarts += 1
+ 
+-              rm_f $applog_path if !$applog_path.nil?
++              FileUtils::rm_f $applog_path if !$applog_path.nil?
+               logcat_process()
+             else
+               puts "Still waiting..."

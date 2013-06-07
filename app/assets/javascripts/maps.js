@@ -16,7 +16,7 @@ function initialize(lat,lon) {
 }
 
 //  google.maps.event.addDomListener(window, 'load', initialize);
-function add_markers(markers) {
+function add_markers(markers, stop_ids) {
   if (initialize.ran==true)
     return;
 
@@ -31,6 +31,13 @@ function add_markers(markers) {
     google.maps.event.addListener(marker, 'click', function() { 
       window.location = '/stop/' + stop_ids[index];
     });
+	  google.maps.event.addListener(marker, 'mouseover', function() {
+      $("#maptt").html($("#" + stop_ids[index]).clone());
+	  });
+	  // Hide tooltip on mouseout event.
+	  google.maps.event.addListener(marker, 'mouseout', function() {
+      $("#maptt").html("");
+	  });
   });
 
   var yah_marker = new google.maps.Marker({

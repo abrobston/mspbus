@@ -13,10 +13,6 @@ class HomeController < ApplicationController
       params[:q]=cookies[:q]
     end
 
-    if params[:q].present?
-      params[:q]+=", Minneapolis, MN"
-    end
-
     @stops = Stop.search(params)
     @lat=params[:lat]
     @lon=params[:lon]

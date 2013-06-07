@@ -11,8 +11,10 @@ Setup
    * May need `sudo apt-get install libsqlite3-dev`
  6. Start Elastic Search with `sudo service elasticsearch start`
  7. Configure **config/database.yml**
- 8. Index GeoData `rake environment tire:import CLASS='Stop' FORCE=true`
- 9. Run `rails s` in the project's base directory to start the server
+ 8. rake db:migrate
+ 9. Load stop data into postgres `rake mspbus:load_stops`
+ 10. Index GeoData `rake environment tire:import CLASS='Stop' FORCE=true`
+ 11. Run `rails s` in the project's base directory to start the server
 
 
 Database Stops Table

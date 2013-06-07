@@ -12,7 +12,6 @@
 <% if @stops.results.empty? %>
   <div class="alert alert-info">No stops found.</div>
 <% end %>
-
 <div id="view-table" class="views">
 
   <div class="btn-group btn-group-vertical" style="width:100%;">
@@ -45,10 +44,18 @@
     <span class="label label-info">&gt;20 Min</span>
     <span class="label"><i class="icon-question-sign"></i> = Real-time unavailable</span>
   </div>
+  <div style="margin-top:1em;">
+      <b>Locations:</b><br>
+      <span class="label"><i class="icon-arrow-up"></i> = NORTHBOUND</span>
+      <span class="label"><i class="icon-arrow-down"></i> = SOUTHBOUND</span>
+      <span class="label"><i class="icon-arrow-right"></i> = EASTBOUND</span>
+      <span class="label"><i class="icon-arrow-left"></i> = WESTBOUND</span>
+    </div>
 </div>
 
-<div id="view-map" class="views" style="display:none">
-  <div style="height:500px" id="map-canvas"></div>
+<div id="view-map" class="views" style="display:none;height:500px;position:relative;">
+  <div style="height:100%" id="map-canvas"></div>
+  <div id="maptt" style="position:absolute;bottom:0;width:100%;height:2em;text-align:center;"></div>
 </div>
 
 <div class="modal hide fade" id="ask">
@@ -109,7 +116,7 @@
     $(".views").hide();
     $("#view-map").show();
     initialize(<%= @lat %>, <%= @lon %>);
-    add_markers(markers);
+    add_markers(markers, stop_ids);
     initialize.ran=true;
   });
 </script>
